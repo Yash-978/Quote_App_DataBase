@@ -53,9 +53,7 @@ Widget themeBottomSheet(
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    // Handle state change
-                    // selectbg = Minimalist_ImagesList[index];
-                    quoteController.selectbg;
+                    quoteController.selectBackgroundImage;
                   },
                   child: Container(
                     margin: EdgeInsets.all(5),

@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
     flutterVersionName = "1.0"
 }
 
+
 android {
     namespace = "com.example.quote_app_db"
     compileSdk = flutter.compileSdkVersion
@@ -55,4 +56,11 @@ android {
 
 flutter {
     source = "../.."
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+    }
 }

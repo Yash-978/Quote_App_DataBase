@@ -284,6 +284,7 @@ import 'dart:typed_data';
 import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:responsive_navigation_bar/responsive_navigation_bar.dart';
@@ -402,144 +403,187 @@ class QuotePage extends StatelessWidget {
           // Return an empty container or any default screen if not Profile
           return RepaintBoundary(
             key: quoteController.imgKey,
-            child: Container(
-                height: h * 0.990 + 40,
-                width: w * 0.990 + 60,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  image: DecorationImage(
-                      image: AssetImage(selectbg), fit: BoxFit.cover),
-                ),
-                child: PageView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: quoteController.quotes.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Obx(
+              () => Container(
+                  height: h * 0.990 + 40,
+                  width: w * 0.990 + 60,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    image: DecorationImage(
+                        image: AssetImage(quoteController.selectbg.value),
+                        fit: BoxFit.cover),
+                  ),
+                  child: Obx(
+                    () => PageView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: quoteController.quotes.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.category,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                // Navigate to Category Screen
-                                Get.to(HomePage()); // Implement CategoryScreen
-                              },
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.category,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    // Navigate to Category Screen
+                                    Get.to(
+                                        HomePage()); // Implement CategoryScreen
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    // Navigate to Favorite Screen
+                                    Get.to(
+                                        FavoritePage()); // Implement FavoriteScreen
+                                  },
+                                ),
+                              ],
                             ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.favorite,
-                                color: Colors.white,
+                            SizedBox(
+                              height: h * 0.075,
+                            ),
+                            ListTile(
+                              title: SelectableText(
+                                "${quoteController.quotes[index].quote}",
+                                textAlign: TextAlign.center,
+                                maxLines: 5,
+                                style: TextStyle(
+                                    color: selectTextColor,
+                                    fontSize: textSizeSlider,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              onPressed: () {
-                                // Navigate to Favorite Screen
-                                Get.to(
-                                    FavoritePage()); // Implement FavoriteScreen
-                              },
+                              subtitle: SelectableText(
+                                " ${quoteController.quotes[index].author}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: selectTextColor,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            SizedBox(
+                              height: h * 0.075,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 40),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    onPressed: () async {
+                                      RenderRepaintBoundary imgboundary =
+                                          quoteController.imgKey.currentContext!
+                                                  .findRenderObject()
+                                              as RenderRepaintBoundary;
+                                      ui.Image image =
+                                          await imgboundary.toImage();
+                                      ByteData? imgbyteData =
+                                          await image.toByteData(
+                                              format: ui.ImageByteFormat.png);
+                                      Uint8List img =
+                                          imgbyteData!.buffer.asUint8List();
+                                      ImageGallerySaver.saveImage(img);
+                                      Get.snackbar(
+                                        backgroundColor: Color(0xffC3F6BC),
+                                        'Downloading...',
+                                        'Downloaded Successfully',
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.file_download_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      final path =
+                                          await getApplicationDocumentsDirectory();
+
+                                      RenderRepaintBoundary imgboundary =
+                                          quoteController.imgKey.currentContext!
+                                                  .findRenderObject()
+                                              as RenderRepaintBoundary;
+
+                                      ui.Image image =
+                                          await imgboundary.toImage();
+
+                                      ByteData? imgbyteData =
+                                          await image.toByteData(
+                                              format: ui.ImageByteFormat.png);
+
+                                      Uint8List img =
+                                          imgbyteData!.buffer.asUint8List();
+
+                                      File file = File('${path.path}/img.png');
+
+                                      file.writeAsBytes(img);
+
+                                      ShareExtend.share(file.path, "IMG");
+                                    },
+                                    icon: Icon(
+                                      Icons.share,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => IconButton(
+                                      onPressed: () {
+                                        quoteController.likedQuotes(
+                                            quoteController.quotes[index]);
+                                      },
+                                      icon: Icon(
+                                        size: 35,
+                                        quoteController.quotes[index].like ==
+                                                "1"
+                                            ? Icons.favorite
+                                            : Icons.favorite_border_outlined,
+                                        color: quoteController
+                                                    .quotes[index].like ==
+                                                "1"
+                                            ? Colors.red
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.copy_rounded,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    onPressed: () {
+                                      Clipboard.setData(ClipboardData(
+                                          text:
+                                              '${quoteController.quotes[index].quote} - ${quoteController.quotes[index].author}'));
+                                      Get.snackbar(
+                                        backgroundColor: Color(0xffC3F6BC),
+                                        'Copied',
+                                        'Quote copied to clipboard',
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
-                        ),
-                        ListTile(
-                          title: SelectableText(
-                            "${quoteController.quotes[index].quote}",
-                            textAlign: TextAlign.center,
-                            maxLines: 5,
-                            style: TextStyle(
-                                color: selectTextColor,
-                                fontSize: textSizeSlider,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: SelectableText(
-                            " ${quoteController.quotes[index].author}",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: selectTextColor,
-                                fontSize: 30,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  RenderRepaintBoundary imgboundary =
-                                      quoteController.imgKey.currentContext!
-                                              .findRenderObject()
-                                          as RenderRepaintBoundary;
-                                  ui.Image image = await imgboundary.toImage();
-                                  ByteData? imgbyteData =
-                                      await image.toByteData(
-                                          format: ui.ImageByteFormat.png);
-                                  Uint8List img =
-                                      imgbyteData!.buffer.asUint8List();
-                                  ImageGallerySaver.saveImage(img);
-                                },
-                                icon: Icon(
-                                  Icons.file_download_outlined,
-                                  color: Colors.white,
-                                  size: 35,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  final path =
-                                      await getApplicationDocumentsDirectory();
-
-                                  RenderRepaintBoundary imgboundary =
-                                      quoteController.imgKey.currentContext!
-                                              .findRenderObject()
-                                          as RenderRepaintBoundary;
-
-                                  ui.Image image = await imgboundary.toImage();
-
-                                  ByteData? imgbyteData =
-                                      await image.toByteData(
-                                          format: ui.ImageByteFormat.png);
-
-                                  Uint8List img =
-                                      imgbyteData!.buffer.asUint8List();
-
-                                  File file = File('${path.path}/img.png');
-
-                                  file.writeAsBytes(img);
-
-                                  ShareExtend.share(file.path, "IMG");
-                                },
-                                icon: Icon(
-                                  Icons.share,
-                                  color: Colors.white,
-                                  size: 35,
-                                ),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    quoteController.likedQuotes(
-                                        quoteController.quotes[index]);
-                                  },
-                                  icon: Icon(
-                                    size: 35,
-                                    quoteController.quotes[index].like == "1"
-                                        ? Icons.favorite
-                                        : Icons.favorite_border_outlined,
-                                    color: quoteController.quotes[index].like ==
-                                            "1"
-                                        ? Colors.red
-                                        : Colors.white,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                )),
+                        );
+                      },
+                    ),
+                  )),
+            ),
           );
         },
       ),

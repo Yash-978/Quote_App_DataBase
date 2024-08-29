@@ -16,6 +16,7 @@ class FavoritePage extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0.1,
         // leading: Icon(Icons.home),
+        centerTitle: true,
         title: ElevatedButton.icon(
           onPressed: () {},
           icon: Icon(
@@ -61,6 +62,7 @@ class FavoritePage extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 22,
+                        color: Colors.green.shade900,
                       ),
                     ),
                   ],

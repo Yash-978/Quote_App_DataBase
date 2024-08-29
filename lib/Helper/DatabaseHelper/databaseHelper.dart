@@ -112,12 +112,12 @@ class DataBaseHelper {
   }
 
   Future<void> insertQuote(
-      String cate, String text, String author, String likes) async {
+      String cate, String text, String author, String like) async {
     Database? db = await database;
     String sql =
-    '''INSERT INTO $tableName(cate, id, text, author, liked)VALUES (?,NULL,?,?,?)
+        '''INSERT INTO $tableName(cate, id, text, author, like) VALUES (?,NULL,?,?,?)
     ''';
-    List args = [cate, text, author, likes];
+    List args = [cate, text, author, like];
     await db!.rawInsert(sql, args);
   }
 
@@ -134,13 +134,18 @@ class DataBaseHelper {
     String sql = '''DELETE FROM $tableName WHERE text=?''';
     return await db!.rawDelete(sql, [text]);
   }
-  Future getLikedQuotes()async{
-    Database? db=await database;
-    return await db!.query(tableName,where: 'liked = ?',whereArgs: [1]);
-  }
-  Future getLikedCategoriesQuotes(String cate)async{
-    Database? db=await database;
-    return await db!.query(tableName,where: 'liked = ? AND category = ?',whereArgs: [1,cate],);
+
+  Future getLikedQuotes() async {
+    Database? db = await database;
+    return await db!.query(tableName, where: 'like = ?', whereArgs: [1]);
   }
 
+  Future getLikedCategoriesQuotes(String cate) async {
+    Database? db = await database;
+    return await db!.query(
+      tableName,
+      where: 'like = ? AND category = ?',
+      whereArgs: [1, cate],
+    );
+  }
 }

@@ -210,7 +210,7 @@ List HomeScreenColorlist = [
 ];
 Color selectTextColor = Colors.white;
 double textSizeSlider = 32;
-String selectbg = 'assets/images/Minimalist/m1.jpg';
+String selectbg = 'assets/images/Minimalist/m9.jpg';
 
 List TextColorList = [
   Colors.black,

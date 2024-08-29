@@ -56,7 +56,7 @@ class CategoryPage extends StatelessWidget {
               children: [
                 Text(
                   filteredQuotes[index].quote,
-                  style: TextStyle(color: Colors.green.shade900, fontSize: 25),
+                  style: TextStyle(color: Colors.black54, fontSize: 25),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -75,20 +75,22 @@ class CategoryPage extends StatelessWidget {
                     SizedBox(
                       width: w * 0.065,
                     ),
-                    IconButton(
-                      icon: Icon(
-                        quoteController.quotes[index].like == "1"
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: quoteController.quotes[index].like == "1"
-                            ? Colors.red
-                            : Colors.green.shade900,
-                        size: 30,
+                    Obx(
+                      () => IconButton(
+                        icon: Icon(
+                          quoteController.quotes[index].like == "1"
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: quoteController.quotes[index].like == "1"
+                              ? Colors.red
+                              : Colors.green.shade900,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          quoteController
+                              .likedQuotes(quoteController.quotes[index]);
+                        },
                       ),
-                      onPressed: () {
-                        quoteController
-                            .likedQuotes(quoteController.quotes[index]);
-                      },
                     ),
                     SizedBox(
                       width: w * 0.065,

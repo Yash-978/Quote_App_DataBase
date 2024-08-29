@@ -27,6 +27,19 @@ class _LikedPageState extends State<LikedPage> {
         .where((quote) => quote.cate == widget.category && quote.like == '1')
         .toList();
     return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0.1,
+        // leading: Icon(Icons.home),
+        centerTitle: true,
+        title: ElevatedButton.icon(
+          onPressed: () {},
+          icon: Icon(
+            Icons.favorite,
+            color: Colors.red,
+          ),
+          label: Text('Favorite Quotes'),
+        ),
+      ),
       body: ListView.builder(
         itemCount: filteredQuotes.length,
         itemBuilder: (context, index) => Center(
@@ -54,7 +67,7 @@ class _LikedPageState extends State<LikedPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40),
                         child: Text(
-                          "~ ${filteredQuotes[index].author}",
+                          "${filteredQuotes[index].author}",
                           style: TextStyle(
                               color: Colors.green.shade900, fontSize: 20),
                         ),
@@ -77,23 +90,33 @@ class _LikedPageState extends State<LikedPage> {
                             width: w * 0.065,
                           ),
                           IconButton(
-                            icon: Icon(
-                              filteredQuotes[index].like == "1"
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: filteredQuotes[index].like == "1"
-                                  ? Colors.red
-                                  : Colors.green.shade900,
-                              size: 30,
-                            ),
+                            icon: Icon(filteredQuotes[index].like== "1" ? Icons.favorite : Icons.favorite_border,
+                              color: filteredQuotes[index].like== "1" ? Colors.red : Colors.green.shade900,
+                              size: 30,),
                             onPressed: () {
                               setState(() {
-                                // quoteController.likedQuote(filteredQuotes[index]);
-                                quoteController
-                                    .likedQuotes(filteredQuotes[index]);
+                                quoteController.likedQuotes(filteredQuotes[index]);
                               });
                             },
                           ),
+                          // IconButton(
+                          //   icon: Icon(
+                          //     filteredQuotes[index].like == "1"
+                          //         ? Icons.favorite
+                          //         : Icons.favorite_border,
+                          //     color: filteredQuotes[index].like == "1"
+                          //         ? Colors.red
+                          //         : Colors.green.shade900,
+                          //     size: 30,
+                          //   ),
+                          //   onPressed: () {
+                          //     setState(() {
+                          //       // quoteController.likedQuote(filteredQuotes[index]);
+                          //       quoteController
+                          //           .likedQuotes(filteredQuotes[index]);
+                          //     });
+                          //   },
+                          // ),
                           SizedBox(
                             width: w * 0.065,
                           ),
@@ -124,85 +147,6 @@ class _LikedPageState extends State<LikedPage> {
           ),
         ),
       ),
-      // ListView.builder(
-      //   itemCount: filteredQuotes.length,
-      //   itemBuilder: (context, index) {
-      //     return Container(
-      //       height: h * 0.45,
-      //       width: w * 0.85,
-      //       padding: EdgeInsets.all(12),
-      //       margin: EdgeInsets.all(8),
-      //       alignment: Alignment.center,
-      //       decoration: BoxDecoration(
-      //           color: HomeScreenColorlist[index % HomeScreenColorlist.length],
-      //           borderRadius: BorderRadius.circular(15),
-      //           border: Border.all(color: Colors.black12)),
-      //       child: Column(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           Text(
-      //             filteredQuotes[index].quote,
-      //             style: TextStyle(color: Colors.green.shade900, fontSize: 25),
-      //           ),
-      //           Row(
-      //             mainAxisAlignment: MainAxisAlignment.center,
-      //             children: [
-      //               IconButton(
-      //                 onPressed: () {
-      //                   Share.share(
-      //                       '${quoteController.quotes[index].quote} - ${quoteController.quotes[index].author}');
-      //                 },
-      //                 icon: Icon(
-      //                   CupertinoIcons.share,
-      //                   color: Colors.green.shade900,
-      //                   size: 30,
-      //                 ),
-      //               ),
-      //               SizedBox(
-      //                 width: w * 0.065,
-      //               ),
-      //               IconButton(
-      //                 icon: Icon(
-      //                   quoteController.quotes[index].like == "1"
-      //                       ? Icons.favorite
-      //                       : Icons.favorite_border,
-      //                   color: quoteController.quotes[index].like == "1"
-      //                       ? Colors.red
-      //                       : Colors.green.shade900,
-      //                   size: 30,
-      //                 ),
-      //                 onPressed: () {
-      //                   quoteController
-      //                       .likedQuotes(quoteController.quotes[index]);
-      //                 },
-      //               ),
-      //               SizedBox(
-      //                 width: w * 0.065,
-      //               ),
-      //               IconButton(
-      //                   icon: Icon(
-      //                     Icons.copy_rounded,
-      //                     color: Colors.green.shade900,
-      //                     size: 30,
-      //                   ),
-      //                   onPressed: () {
-      //                     Clipboard.setData(ClipboardData(
-      //                         text:
-      //                             '${quoteController.quotes[index].quote} - ${quoteController.quotes[index].author}'));
-      //                     Get.snackbar(
-      //                       backgroundColor: Color(0xffC3F6BC),
-      //                       'Copied',
-      //                       'Quote copied to clipboard',
-      //                       snackPosition: SnackPosition.BOTTOM,
-      //                     );
-      //                   }),
-      //             ],
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
     );
   }
 }
