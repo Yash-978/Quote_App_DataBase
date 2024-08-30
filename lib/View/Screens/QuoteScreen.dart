@@ -457,7 +457,7 @@ class QuotePage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 maxLines: 5,
                                 style: TextStyle(
-                                    color: selectTextColor,
+                                    color: quoteController.selectTextColor,
                                     fontSize: textSizeSlider,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -465,7 +465,7 @@ class QuotePage extends StatelessWidget {
                                 " ${quoteController.quotes[index].author}",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: selectTextColor,
+                                    color: quoteController.selectTextColor,
                                     fontSize: 30,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -542,6 +542,7 @@ class QuotePage extends StatelessWidget {
                                       onPressed: () {
                                         quoteController.likedQuotes(
                                             quoteController.quotes[index]);
+                                        print('liked quote');
                                       },
                                       icon: Icon(
                                         size: 35,

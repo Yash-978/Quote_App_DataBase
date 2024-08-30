@@ -103,7 +103,7 @@ class DataBaseHelper {
         text TEXT NOT NULL,
         author TEXT NOT NULL,
         cate TEXT NOT NULL,
-        like TEXT NOT NULL
+        like TEXT NOT NULL)
         ''';
         return db.execute(sql);
       },
@@ -112,7 +112,7 @@ class DataBaseHelper {
   }
 
   Future<void> insertQuote(
-      String cate, String text, String author, String like) async {
+      Database db, String cate, String text, String author, String like) async {
     Database? db = await database;
     String sql =
         '''INSERT INTO $tableName(cate, id, text, author, like) VALUES (?,NULL,?,?,?)

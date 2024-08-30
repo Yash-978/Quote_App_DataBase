@@ -30,6 +30,7 @@ import 'package:get/get.dart';
 import 'package:quote_app_db/View/Screens/HomeScreen.dart';
 
 import 'View/Screens/QuoteScreen.dart';
+import 'View/Screens/SplashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(debugShowCheckedModeBanner: false,
       getPages: [
-        GetPage(name: '/', page: () => const QuotePage(),),
+        GetPage(name: '/', page: () => const SplashPage(),),
         GetPage(name: '/quote', page: () => const QuotePage(),),
       ],
 

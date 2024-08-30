@@ -46,6 +46,8 @@ dependencies:
   flutter_wallpaper_manager: ^0.0.4
   path_provider: ^2.1.4
   share_plus: ^10.0.2
+  smooth_page_indicator: ^1.2.0+3
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +77,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/Minimalist/
+    - assets/images/OnboardingImages/
+    - assets/images/
+    - assets/images/Motivation/
+    - assets/images/Movies/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

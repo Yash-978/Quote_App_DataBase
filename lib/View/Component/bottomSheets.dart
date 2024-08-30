@@ -53,7 +53,8 @@ Widget themeBottomSheet(
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    quoteController.selectBackgroundImage;
+                    quoteController.selectbg.value =
+                        Minimalist_ImagesList[index];
                   },
                   child: Container(
                     margin: EdgeInsets.all(5),
@@ -109,7 +110,7 @@ Widget themeBottomSheet(
                 return GestureDetector(
                   onTap: () {
                     // Handle state change
-                    selectbg = Gradient_ImageList[index];
+                    quoteController.selectbg.value = Gradient_ImageList[index];
                   },
                   child: Container(
                     margin: EdgeInsets.all(5),
@@ -165,7 +166,7 @@ Widget themeBottomSheet(
                 return GestureDetector(
                   onTap: () {
                     // Handle state change
-                    selectbg = Luxury_ImageList[index];
+                    quoteController.selectbg.value = Luxury_ImageList[index];
                   },
                   child: Container(
                     margin: EdgeInsets.all(5),

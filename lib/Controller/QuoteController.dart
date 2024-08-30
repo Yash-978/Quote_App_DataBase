@@ -63,6 +63,7 @@ class QuotesController extends GetxController {
 */
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -70,6 +71,7 @@ import 'package:get/get.dart';
 import 'package:quote_app_db/Helper/DatabaseHelper/databaseHelper.dart';
 
 import '../Modal/quoteModal.dart';
+import '../Utils/global.dart';
 
 class QuotesController extends GetxController {
   RxList<QuoteModal> quotes = <QuoteModal>[].obs;
@@ -80,49 +82,17 @@ class QuotesController extends GetxController {
   RxBool changeToggle = false.obs;
   RxInt selectedPage = 0.obs;
   GlobalKey imgKey = GlobalKey();
-  RxList Minimalist_ImagesList = [
-    'assets/images/Minimalist/m1.jpg',
-    'assets/images/Minimalist/m2.jpg',
-    'assets/images/Minimalist/m3.jpg',
-    'assets/images/Minimalist/m4.jpg',
-    'assets/images/Minimalist/m5.jpg',
-    'assets/images/Minimalist/m6.jpg',
-    'assets/images/Minimalist/m7.jpg',
-    'assets/images/Minimalist/m8.jpg',
-    'assets/images/Minimalist/m9.jpg',
-    'assets/images/Minimalist/m10.jpg',
-    'assets/images/Minimalist/m11.jpg',
-    'assets/images/Minimalist/m12.jpg',
-    'assets/images/Minimalist/m13.jpg',
-    'assets/images/Minimalist/m14.jpg',
-    'assets/images/Minimalist/m15.jpg',
-    'assets/images/Minimalist/m16.jpg',
-    'assets/images/Minimalist/m17.jpg',
-    'assets/images/Minimalist/m18.jpg',
-    'assets/images/Minimalist/m19.jpg',
-    'assets/images/Minimalist/m20.jpg',
-    'assets/images/Minimalist/m21.jpg',
-    'assets/images/Minimalist/m22.jpg',
-    'assets/images/Minimalist/m23.jpg',
-    'assets/images/Minimalist/m24.jpg',
-    'assets/images/Minimalist/m25.jpg',
-    'assets/images/Minimalist/m26.jpg',
-    'assets/images/Minimalist/m27.jpg',
-    'assets/images/Minimalist/m28.jpg',
-    'assets/images/Minimalist/m29.jpg',
-    'assets/images/Minimalist/m30.jpg',
-  ].obs;
+  var selectTextColor = Colors.white;
+  void updateColor(int index) {
+    selectTextColor = TextColorList[index];
+  }
 
   // Rx<Color>selectTextColor=<Color>Colors.white.obs;
 
-  RxString selectbg = 'assets/images/Minimalist/m9.jpg'.obs;
+  RxString selectbg = 'assets/images/Minimalist/m14.jpg'.obs;
 
   void textSelection(int index) {
     // selectTextColor = TextColorList[index];
-  }
-
-  void selectBackgroundImage(int index) {
-    selectbg.value = Minimalist_ImagesList[index];
   }
 
   // Rx<Color>selectTextColor=Colors.white;
@@ -180,7 +150,7 @@ class QuotesController extends GetxController {
     } else {
       final db = await DataBaseHelper.dataBaseHelper.database;
       await DataBaseHelper.dataBaseHelper
-          .insertQuote(quote.cate, quote.quote, quote.author, quote.like);
+          .insertQuote(db, quote.cate, quote.quote, quote.author, quote.like);
       quote.like = "1";
       favoriteQuote.add(quote);
     }
