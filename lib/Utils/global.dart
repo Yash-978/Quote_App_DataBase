@@ -198,9 +198,9 @@ List Minimalist_ImagesList = [
 ];
 List Gradient_ImageList = [
   'assets/images/Motivation/bg 1.png',
-  'assets/images/Motivation/bg 2.png',
-  'assets/images/Motivation/bg 3.png',
-  'assets/images/Motivation/bg 4.png',
+  'assets/images/Motivation/bg 2.jpg',
+  'assets/images/Motivation/bg 3.jpg',
+  'assets/images/Motivation/bg 4.jpg',
 ];
 List Luxury_ImageList = [
   'assets/images/Movies/i(1).jpg',
