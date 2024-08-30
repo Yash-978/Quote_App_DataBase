@@ -196,6 +196,7 @@ List Minimalist_ImagesList = [
   'assets/images/Minimalist/m29.jpg',
   'assets/images/Minimalist/m30.jpg',
 ];
+
 List Gradient_ImageList = [
   'assets/images/Motivation/bg 1.png',
   'assets/images/Motivation/bg 2.jpg',
